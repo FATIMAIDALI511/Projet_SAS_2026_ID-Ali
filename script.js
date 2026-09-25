@@ -28,12 +28,11 @@ ajouterAction = () => {
         choix = input("Entez votre vhoix s'il vous plais: ");
         switch (choix) {
             case "1":
-                ajouterCondidat(1);
+                ajouterCondidat();
                 break;
             case "2":
                 n = +input("Entez le nombre de condidat que voulez ajouter: ")
                 ajouterCondidat(n)
-
                 break;
             case "0":
                 Action();
@@ -44,19 +43,23 @@ ajouterAction = () => {
     } while (choix != 0)
 
 }
-ajouterCondidat = (n) => {
+ajouterCondidat = (n = 1) => {
     for (let i = 0; i < n; i++) {
+        console.log(`---------Entez le condidat N° ${i + 1}----------`)
         condidateur.CIN = input("Entez CIN: ")
         condidateur.nom = input("Entre le nom de condidat: ")
         condidateur.prenom = input("Entre le prénom de condidat: ")
-
         condidateur.partiPolitique = input("Entez la partie politique: ")
-        condidateur.age = input("Entez l'age de condidat: ") - 0;
-        condidateur.electural = [];
-        condidateurs.push(condidateur)
-
+        condidateur.age = Number(input("Entez l'age de condidat: "));
+        condidateurs.push({
+            CIN: condidateur.CIN,
+            nom : condidateur.nom,
+            prenom: condidateur.prenom,
+            partiPolitique: condidateur.partiPolitique,
+            age : condidateur.age,
+            electeurs: [],
+        });
     }
-    return condidateurs;
 }
 sousMenuAffichage = () => {
     console.log("1. Affichage normal")
@@ -75,10 +78,15 @@ AffichegeAction = () => {
                 console.table(condidateurs)
                 break;
             case "2":
-                console.log("vous choisi 2.2")
+                affichageSelonNombreElecteurs(condidateurs)
                 break;
             case "3":
-                console.log("vous choisi 2.3")
+                let condidateursFiltrer = affichegefiltreParPartiPolitique(condidateurs);
+                if (condidateursFiltrer.length != 0) {
+                    console.table(condidateursFiltrer);
+                } else {
+                    console.log("noo resultat");
+                }
                 break;
             case "0":
                 Action();
@@ -87,6 +95,19 @@ AffichegeAction = () => {
                 console.log("choix invalid")
         }
     } while (choix != 0)
+
+}
+affichegefiltreParPartiPolitique = (condidateurs) => {
+    let partiPolitiqueChercher = input("Enter la partie politique que vous cherchez: ")
+    let condidateursFiltrer = [];
+    for (let i = 0; i < condidateurs.length; i++) {
+        let temp = condidateurs[i].partiPolitique;
+        if (temp.toLowerCase() == partiPolitiqueChercher.toLowerCase()) {
+            condidateursFiltrer.push(condidateurs[i])
+        }
+
+    }
+    return condidateursFiltrer;
 
 }
 Action = () => {
@@ -116,11 +137,26 @@ Action = () => {
             console.log("vous choisi 7")
             break;
         case "0":
+            console.log("-------------------------------")
             console.log("Merci pour votre visite.")
+            console.log("-------------------------------")
             break;
         default:
             console.log("chiox invalid here")
     }
+
+}
+affichageSelonNombreElecteurs = (condidateurs) => {
+    for (let i = 0; i < condidateurs.length; i++) {
+        for (let j = 0; j < condidateurs.length - 1; j++) {
+            if (condidateurs[j].electeurs.length < condidateurs[j + 1].electeurs.length) {
+                let temp = condidateurs[j];
+                condidateurs[j] = condidateurs[j + 1];
+                condidateurs[j + 1] = temp
+            }
+        }
+    }
+    console.table(condidateurs)
 
 }
 // ------ main

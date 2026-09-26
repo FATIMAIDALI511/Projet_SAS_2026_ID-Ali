@@ -122,7 +122,7 @@ Action = () => {
             AffichegeAction();
             break;
         case "3":
-            console.log("vous choisi 3")
+            voter();
             break;
         case "4":
             console.log("vous choisi 4")
@@ -159,9 +159,63 @@ affichageSelonNombreElecteurs = (condidateurs) => {
     console.table(condidateurs)
 
 }
-// ------ main
+
+virifierCINElecteurs=(electeursCIN)=>{
+   
+    for(let i=0; i< condidateurs.length; i++){
+        for(let j=0; j<condidateurs[i].electeurs.length;j++){
+            if(condidateurs[i].electeurs[j]==electeursCIN){
+                return true;
+            
+            }
+            
+        }
+
+    }
+    return false;
+}
+
+virifierCINCondidateur = (condidateurCIN) => {
+    for (let i = 0; i < condidateurs.length; i++) {
+        if (condidateurs[i].CIN == condidateurCIN)
+            return true;
+    }
+    return false;
+}
+ajouterCINElecteurs=(electeursCIN,condidateurCIN)=>{
+    for(let i=0; i< condidateurs.length; i++){
+        if(condidateurs[i].CIN==condidateurCIN){
+            condidateurs[i].electeurs.push(electeursCIN)
+        }
+    }
+
+}
+voter = () => {
+
+     let electeursCIN=input("Enter votre CIN s'il vous plais: ")
+
+    if (!virifierCINElecteurs(electeursCIN)) {
+        let CIN_valide=false;
+        do {
+            console.table(condidateurs)
+            let condidateurCIN = input("enter le CIN de condidateur s'il vous plais: ")
+            let is_ixest = virifierCINCondidateur(condidateurCIN);
+            if (is_ixest) {
+                ajouterCINElecteurs(electeursCIN,condidateurCIN);
+                console.log("Marci pour votre participant");
+                CIN_valide =true
+            } else {
+                console.log("CIN de condidateur n'est pas vrai. ");
+            }
+        }while(!CIN_valide)
+
+    } else {
+        console.log("vous avez déja voter")
+    }
+}
+
+// ------ main-------
 
 do {
-
     Action();
 } while (choix != 0)

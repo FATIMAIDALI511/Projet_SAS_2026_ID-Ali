@@ -200,6 +200,7 @@ AgeModification = (CINcondidateur) => {
 
         if (condidateurs[i].CIN.toLowerCase() == CINcondidateur.toLowerCase()) {
             condidateurs[i].age = Number(age);
+            console.log("la modification fait avec succés")
             break;
         }
     }
@@ -209,6 +210,7 @@ PartiPolitiqueModificatin = (CINcondidateur) => {
     for (let i = 0; i < condidateurs.length; i++) {
         if (condidateurs[i].CIN.toLowerCase() == CINcondidateur.toLowerCase()) {
             condidateurs[i].partiPolitique = partiPolitique;
+            console.log("la modification fait avec succès. ")
             break;
 
         }
@@ -216,13 +218,14 @@ PartiPolitiqueModificatin = (CINcondidateur) => {
 
 }
 ModificationAction = (CINcondidateur) => {
-
+    let choix;
+    do{
     console.log("-----------------------------------Menu de Modification---------------------------------------")
     console.log("1. Modifier l'age. ")
     console.log("2. Modifier la partie politique. ");
     console.log("0. pour exist. ")
 
-    let choix = input("Entrez votre choix s'il vous plais: ")
+     choix = input("Entrez votre choix s'il vous plais: ")
     switch (choix) {
         case "1":
             AgeModification(CINcondidateur)
@@ -237,21 +240,19 @@ ModificationAction = (CINcondidateur) => {
             console.log("choix invalid")
     }
 
+}while(choix!=0)
 }
+
 ModificationDesInformation = () => {
     console.table(condidateurs);
-
     let CINcondidateur = input("Entrz CIN de condidateur que vous voullez modifier: ")
-
     if (virifierCINCondidateur(CINcondidateur)) {
-
         ModificationAction(CINcondidateur);
-        console.table(condidateurs)
-
     } else {
         console.log("CIN est invalid")
     }
 }
+
 Action = () => {
     console.log("-----------------------------Menu principale-----------------------------")
     menuprincipale();

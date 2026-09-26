@@ -47,6 +47,9 @@ ajouterCondidat = (n = 1) => {
     for (let i = 0; i < n; i++) {
         console.log(`---------Entez le condidat N° ${i + 1}----------`)
         condidateur.CIN = input("Entez CIN: ")
+        if(!virifierCINCondidateur(condidateur.CIN)){
+
+        
         condidateur.nom = input("Entre le nom de condidat: ")
         condidateur.prenom = input("Entre le prénom de condidat: ")
         condidateur.partiPolitique = input("Entez la partie politique: ")
@@ -59,7 +62,10 @@ ajouterCondidat = (n = 1) => {
             age : condidateur.age,
             electeurs: [],
         });
+    }else{
+        console.log("ce condidateur est déja enregistrer. ")
     }
+}
 }
 sousMenuAffichage = () => {
     console.log("1. Affichage normal")

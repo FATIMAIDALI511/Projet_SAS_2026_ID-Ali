@@ -118,6 +118,7 @@ AffichegeAction = () => {
                 break;
             case "2":
                 affichageSelonNombreElecteurs(condidateurs)
+                console.table(condidateurs)
                 break;
             case "3":
                 let condidateursFiltrer = affichegefiltreParPartiPolitique(condidateurs);
@@ -160,7 +161,6 @@ affichageSelonNombreElecteurs = (condidateurs) => {
             }
         }
     }
-    console.table(condidateurs)
 
 }
 
@@ -283,9 +283,9 @@ ModificationDesInformation = () => {
         console.log("CIN est invalid")
     }
 }
-findIndexDeCondidateur=(CINcondidateur)=>{
-    for(let i=0; i<condidateurs.length;i++ ){
-        if(condidateurs[i].CIN.toLowerCase()==CINcondidateur.toLowerCase()){
+findIndexDeCondidateur = (CINcondidateur) => {
+    for (let i = 0; i < condidateurs.length; i++) {
+        if (condidateurs[i].CIN.toLowerCase() == CINcondidateur.toLowerCase()) {
             return i;
         }
     }
@@ -296,23 +296,41 @@ supprimerUnCondidat = (condidateurs) => {
     let arraytemp = [];
     let CINCondidateurSupprimer = input("Entrez le CIN que vous voullez supprimer: ")
     if (virifierCINCondidateur(CINCondidateurSupprimer)) {
-        let index= findIndexDeCondidateur(CINCondidateurSupprimer)
+        let index = findIndexDeCondidateur(CINCondidateurSupprimer)
 
-        for (let i = condidateurs.length - 1; i >index; i--) {
+        for (let i = condidateurs.length - 1; i > index; i--) {
             if (condidateurs[i].CIN.toLowerCase() != CINCondidateurSupprimer.toLowerCase()) {
                 let element = condidateurs.pop();
                 arraytemp.push(element)
             }
 
-            
-           
+
+
         }
         let elementesupprimer = condidateurs.pop();
-         return arraytemp;
+        return arraytemp;
 
     } else {
         console.log("CIN invalid")
     }
+}
+nombreTotalElecteur = () => {
+    let total = 0;
+    for (let i = 0; i < condidateurs.length; i++) {
+        total += condidateurs[i].electeurs.length
+    }
+    return total;
+
+
+}
+nombrePaRPartiPolitique=(partiPolitique)=>{
+    let comp=0;
+    for(let i=0; i<condidateurs.length;i++){
+        if(condidateurs[i].partiPolitique.toLowerCase()==partiPolitique.toLowerCase()){
+            comp++;
+        }
+    }
+    return comp;
 }
 Action = () => {
     console.log("-----------------------------Menu principale-----------------------------")
@@ -351,7 +369,18 @@ Action = () => {
             };
             break;
         case "7":
-            console.log("vous choisi 7")
+            console.log("le nombre total des condidateurs est :", condidateurs.length)
+            console.log("le nombre total de votes exprimés dans toute l'élection: ", nombreTotalElecteur())
+            console.log("le Top 3 des candidats ayant le plus de votes. ")
+            let TOP3 = [];
+            affichageSelonNombreElecteurs(condidateurs);
+            for (let i = 0; i < 3; i++) {
+                TOP3.push(condidateurs[i]);
+            }
+            console.table(TOP3)
+            let partiPolitique=input("entre la partie politique: ");
+            console.log(`le nompre des condidatat de la partie politique ${partiPolitique} est ${nombrePaRPartiPolitique(partiPolitique)}`)
+
             break;
         case "0":
             console.log("-------------------------------")

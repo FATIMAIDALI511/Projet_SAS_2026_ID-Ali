@@ -1,11 +1,42 @@
 const input = require('prompt-sync')();
 //------- les variables globale.
 let choix;
-let condidateurs = [];
+// let condidateurs = [];
 let condidateur = {}
-     
-
-
+let condidateurs = [
+    {
+        CIN: "IA1234",
+        nom: "SARA",
+        prenom: "HANIN",
+        partiPolitique: "AHRAR",
+        age: 40,
+        electeurs: ["IA1234", "IA1234", "IA1234", "IA1234",]
+    },
+    {
+        CIN: "IA124",
+        nom: "safae",
+        prenom: "jabir",
+        partiPolitique: "AHRAR",
+        age: 25,
+        electeurs: ["IA1234", "IA1234", "IA1234", "IA1234", "IA1234", "IA1234", "IA1234", "IA1234",]
+    },
+    {
+        CIN: "IF1234",
+        nom: "ABD",
+        prenom: "janat",
+        partiPolitique: "AHR",
+        age: 67,
+        electeurs: ["IA1234", "IA1234", "IA1234", "IA1234", "IA1234", "IA1234", "IA1234",]
+    },
+    {
+        CIN: "I1234",
+        nom: "YASIN",
+        prenom: "sabir",
+        partiPolitique: "Arina",
+        age: 20,
+        electeurs: []
+    }
+]
 
 menuprincipale = () => {
     console.log("1. Ajouter les condidat.")
@@ -219,28 +250,28 @@ PartiPolitiqueModificatin = (CINcondidateur) => {
 }
 ModificationAction = (CINcondidateur) => {
     let choix;
-    do{
-    console.log("-----------------------------------Menu de Modification---------------------------------------")
-    console.log("1. Modifier l'age. ")
-    console.log("2. Modifier la partie politique. ");
-    console.log("0. pour exist. ")
+    do {
+        console.log("-----------------------------------Menu de Modification---------------------------------------")
+        console.log("1. Modifier l'age. ")
+        console.log("2. Modifier la partie politique. ");
+        console.log("0. pour exist. ")
 
-     choix = input("Entrez votre choix s'il vous plais: ")
-    switch (choix) {
-        case "1":
-            AgeModification(CINcondidateur)
-            break;
-        case "2":
-            PartiPolitiqueModificatin(CINcondidateur);
-            break;
-        case "0":
-            Action();
-            break;
-        default:
-            console.log("choix invalid")
-    }
+        choix = input("Entrez votre choix s'il vous plais: ")
+        switch (choix) {
+            case "1":
+                AgeModification(CINcondidateur)
+                break;
+            case "2":
+                PartiPolitiqueModificatin(CINcondidateur);
+                break;
+            case "0":
+                Action();
+                break;
+            default:
+                console.log("choix invalid")
+        }
 
-}while(choix!=0)
+    } while (choix != 0)
 }
 
 ModificationDesInformation = () => {
@@ -252,7 +283,37 @@ ModificationDesInformation = () => {
         console.log("CIN est invalid")
     }
 }
+findIndexDeCondidateur=(CINcondidateur)=>{
+    for(let i=0; i<condidateurs.length;i++ ){
+        if(condidateurs[i].CIN.toLowerCase()==CINcondidateur.toLowerCase()){
+            return i;
+        }
+    }
 
+}
+
+supprimerUnCondidat = (condidateurs) => {
+    let arraytemp = [];
+    let CINCondidateurSupprimer = input("Entrez le CIN que vous voullez supprimer: ")
+    if (virifierCINCondidateur(CINCondidateurSupprimer)) {
+        let index= findIndexDeCondidateur(CINCondidateurSupprimer)
+
+        for (let i = condidateurs.length - 1; i >index; i--) {
+            if (condidateurs[i].CIN.toLowerCase() != CINCondidateurSupprimer.toLowerCase()) {
+                let element = condidateurs.pop();
+                arraytemp.push(element)
+            }
+
+            
+           
+        }
+        let elementesupprimer = condidateurs.pop();
+         return arraytemp;
+
+    } else {
+        console.log("CIN invalid")
+    }
+}
 Action = () => {
     console.log("-----------------------------Menu principale-----------------------------")
     menuprincipale();
@@ -271,7 +332,15 @@ Action = () => {
             ModificationDesInformation();
             break;
         case "5":
-            console.log("vous choisi 5")
+            console.log("-------------------condidateur avant suprisions-------------------------")
+            console.table(condidateurs)
+            let arraytemp = supprimerUnCondidat(condidateurs);
+            for (let i = 0; i < arraytemp.length; i++) {
+                condidateurs.push(arraytemp[i])
+            }
+
+            console.log("-------------------condidateur après suprisions-------------------------")
+            console.table(condidateurs)
             break;
         case "6":
             let nom = input("enter le non de condidateur chercher")
